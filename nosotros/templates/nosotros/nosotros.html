@@ -1,0 +1,58 @@
+{% extends 'home/base.html' %}
+{% block title %}Nosotros - Fusión{% endblock %}
+{% block content %}
+  <h2 class="titulo-seccion" style="margin: 0 auto; display: block; width: fit-content;">Nosotros</h2>
+
+  <section style="max-width: 900px; margin: auto; padding: 2rem;">
+    <p style="text-align: justify;">
+      <strong>Fusión</strong> nació en <strong>julio de 2020</strong> con una cafetería en el Centro Deportivo Azul (CDA), atendiendo a jugadores y trabajadores del club Universidad de Chile. A lo largo del tiempo, nuestra empresa ha expandido sus servicios a kioscos en distintos estadios y centros deportivos, incluyendo el Estadio Bicentenario de La Florida, el Estadio Municipal de La Cisterna y otros puntos estratégicos en el ámbito deportivo chileno.
+    </p>
+    <p style="text-align: justify;">
+      Hoy somos parte de la experiencia de cientos de hinchas y deportistas cada semana, ofreciendo productos frescos, rápidos y saludables. Nuestra meta es seguir creciendo, con nuevos puntos de atención, tecnología que optimice nuestra operación y siempre el foco puesto en nuestros clientes.
+    </p>
+
+    <h3 style="margin-top: 2rem;">¿Dónde trabajamos?</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 1rem;">
+      <button class="btn-sede" onclick="mostrarInfo('cda')">🏟️ CDA</button>
+      <button class="btn-sede" onclick="mostrarInfo('cdc')">🏟️ CDC</button>
+      <button class="btn-sede" onclick="mostrarInfo('bicentenario')">🏟️ Bicentenario</button>
+      <button class="btn-sede" onclick="mostrarInfo('palestino')">🏟️ Palestino</button>
+      <button class="btn-sede" onclick="mostrarInfo('ohiggins')">🏟️ O’Higgins</button>
+    </div>
+
+    <div id="info-sede" style="background-color:#f4f4f4; padding: 1rem; border-radius: 8px; text-align:center;">
+      <em>Haz clic en un estadio para conocer más detalles.</em>
+    </div>
+  </section>
+
+  <script>
+    const info = {
+      cda: "📍 <strong>CDA</strong>: Nuestra primera cafetería. Aquí comenzó Fusión, apoyando al club Universidad de Chile con alimentación diaria.",
+      cdc: "📍 <strong>CDC</strong>: Ciudad de Campeones, centro deportivo de Audax Italiano. Allí ofrecemos snacks y bebestibles durante entrenamientos y eventos.",
+      bicentenario: "📍 <strong>Bicentenario de La Florida</strong>: Kioscos activos en días de partido para atender a miles de asistentes.",
+      palestino: "📍 <strong>Estadio Municipal de La Cisterna</strong>: Atención al público en los partidos del Club Palestino.",
+      ohiggins: "📍 <strong>Estadio El Teniente</strong>: Servicios de alimentación durante los partidos de O’Higgins en Rancagua."
+    };
+
+    function mostrarInfo(sede) {
+      const container = document.getElementById("info-sede");
+      container.innerHTML = info[sede];
+    }
+  </script>
+
+  <style>
+    .btn-sede {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-sede:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}

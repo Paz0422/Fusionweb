@@ -1,0 +1,506 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fusión{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #FFF8E1;
+            color: #4E342E;
+            margin: 0; padding: 0;
+        }
+
+        header {
+            background-color: #1C1C1C;
+            color: #FFC107;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 120px;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            padding-left: -30px; /* mueve el contenido hacia la derecha */
+            font-size: 2.5rem;
+            font-family: 'Pacifico', cursive;
+            color: #FFC107;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: normal;
+        }
+
+        header h5 {
+            margin: 0;
+            padding-left: -30px; /* mueve el contenido hacia la derecha */
+            font-size: 1rem;
+            font-family: 'Open Sans', sans-serif;
+            color: #FAFAFA;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: -50px;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        nav {
+            margin-left: auto;
+        }
+
+        nav a {
+            color: #FFC107;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #FFF8E1;
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #1C1C1C;
+            color: #FFC107;
+            text-align: center;
+            padding: 1rem 0;
+            /* position: fixed; */
+            /* bottom: 0; width: 100%; */
+            position: static;
+            width: 100%;
+        }
+
+        main {
+            padding: 2rem;
+            margin-bottom: 6rem; /* Aumenta el espacio inferior para separar del footer */
+        }
+
+        img.logo {
+            height: 110px;
+            width: auto;
+            margin-left: 40px !important;
+            margin-right: 0;
+            display: block;
+            object-fit: contain;
+            position: static !important;
+        }
+
+        h2, h3, h4 {
+            color: #4E342E;
+        }
+
+        p, li, span {
+            color: #4E342E;
+        }
+
+        /* Controles adicionales */
+        .carousel-controls {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design - Mobile First */
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                min-height: 80px;
+                padding: 0.5rem 0.7rem 0.2rem 0.7rem;
+                flex-direction: row;
+                gap: 0.7rem;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            img.logo {
+                height: 70px;
+                margin-left: 12px !important;
+            }
+
+            .header-content {
+                margin-left: 0;
+                padding: 0;
+                flex-direction: column;
+                gap: 0.1rem;
+                text-align: left;
+                align-items: flex-start;
+                width: auto;
+            }
+
+            header h1 {
+                font-size: 2rem;
+                margin: 0.1rem 0 0.1rem 0;
+                text-align: left;
+            }
+
+            header h5 {
+                display: block;
+                font-size: 0.2;
+                margin: 0 0 0.1rem 0;
+                text-align: left;
+            }
+
+            nav {
+                margin: 0.2rem 0 0 0;
+                display: flex;
+                gap: 1rem;
+                justify-content: flex-start;
+            }
+
+            nav a {
+                margin: 0;
+                font-size: 0.9rem;
+            }
+
+            /* Controles responsive */
+            .carousel-controls {
+                margin: 1rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+
+            .carousel-btn {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                margin: 0;
+            }
+
+            /* Contenido responsive */
+            main {
+                padding: 0.5rem;
+                margin-bottom: 2rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            p, li {
+                font-size: 0.9rem;
+            }
+
+            /* Footer responsive */
+            footer {
+                padding: 0.5rem 0;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .carousel {
+                max-width: 90%;
+            }
+
+            .slide {
+                max-height: 350px;
+            }
+
+            .carousel-controls {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .carousel-btn {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Header para escritorio */
+        @media (min-width: 769px) {
+            header {
+                height: 140px;
+                padding: 0 2rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center; /* centrado vertical */
+                gap: 1.2rem;
+                justify-content: flex-start;
+            }
+            img.logo {
+                height: 120px;
+                margin: 0 0 0 -1s0px;
+                position: static;
+                left: 0;
+                top: 0;
+                transform: none;
+                display: block;
+                margin-left: -40px;
+                margin-right: 0;
+            }
+            .header-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            header h1 {
+                font-family: 'Pacifico', cursive;
+                font-size: 4rem;
+                color: #FFC107;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                font-weight: normal;
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1;
+            }
+            header h5 {
+                font-family: 'Caveat', cursive;
+                font-style: italic;
+                font-size: 1.2rem;
+                color: #FAFAFA;
+                font-weight: 600;
+                margin: 0.2rem 0 0 0 !important;
+                padding: 0 !important;
+                line-height: 1;
+                position: relative;
+                top: 0;
+            }
+            nav {
+                margin-left: auto;
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            nav a {
+                margin: 0;
+                font-size: 1.1rem;
+            }
+        }
+
+        .carousel-btn {
+            background-color: #1C1C1C;
+            color: #FFC107;
+            border: 2px solid #FFC107;
+            border-radius: 25px;
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .carousel-btn:hover {
+            background-color: #FFC107;
+            color: #1C1C1C;
+            text-decoration: none;
+        }
+
+        .carousel-btn.active {
+            background-color: #FFC107;
+            color: #1C1C1C;
+        }
+
+        /* --- MENÚ INTERACTIVO --- */
+        .main-nav {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+            align-items: center;
+        }
+        .main-nav a {
+            color: #FFC107;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s;
+        }
+        .main-nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #FFC107;
+            transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+        .main-nav a:hover {
+            color: #FFF8E1;
+        }
+        /* Menú hamburguesa */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            z-index: 1002;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: #FFC107;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        /* Menú lateral móvil */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70vw;
+            max-width: 320px;
+            height: 100vh;
+            background: #1C1C1C;
+            box-shadow: -2px 0 16px rgba(0,0,0,0.2);
+            padding: 4.5rem 2rem 2rem 2rem;
+            z-index: 1001;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+            transform: translateX(100%);
+        }
+        .mobile-menu.open {
+            display: flex;
+            transform: translateX(0);
+        }
+        .mobile-menu a {
+            color: #FFC107;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+            transition: color 0.2s;
+        }
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        .mobile-menu a:hover {
+            color: #FFF8E1;
+        }
+        /* Responsive: mostrar menú hamburguesa en móvil, ocultar menú horizontal */
+        @media (max-width: 900px) {
+            .main-nav {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+        @media (min-width: 901px) {
+            .mobile-menu, .menu-toggle {
+                display: none !important;
+            }
+            .main-nav {
+                display: flex !important;
+            }
+        }
+
+        .fusion-sub {
+            font-size: 1.1rem;
+            color: #FFF8E1;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-top: 0;
+            white-space: normal;
+            font-style: italic;
+        }
+        .header-content h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.7rem;
+            color: #FFC107;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: normal;
+            margin: 0 0 0.1rem 0;
+            line-height: 1;
+        }
+
+        .header-content h5 {
+            font-family: 'Caveat', cursive;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #FAFAFA;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{% static 'home/imagenes/logofusion.png' %}" alt="Logo Fusión" class="logo" />
+        <div class="header-content">
+            <h1>Fusión</h1>
+            <h5>Expertos en alimentación deportiva</h5>
+        </div>
+        <!-- Menú hamburguesa para móvil -->
+        <button class="menu-toggle" aria-label="Abrir menú" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+        <!-- Menú principal -->
+        <nav class="main-nav">
+            <a href="{% url 'home' %}">Inicio</a>
+            <a href="{% url 'nosotros' %}">Nosotros</a>
+            <a href="{% url 'contacto' %}">Contacto</a>
+        </nav>
+        <!-- Menú lateral móvil -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="{% url 'home' %}" onclick="closeMenu()">Inicio</a>
+            <a href="{% url 'nosotros' %}" onclick="closeMenu()">Nosotros</a>
+            <a href="{% url 'contacto' %}" onclick="closeMenu()">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 Fusión. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+        function closeMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.remove('open');
+        }
+    </script>
+</body>
+</html>
