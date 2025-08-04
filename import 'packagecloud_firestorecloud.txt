@@ -1,0 +1,229 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+// Es una buena práctica no depender de un 'AuthManager' global si puedes evitarlo.
+// El estado de autenticación debe ser manejado por el AuthGate.
+// import 'package:front_appsnack/auth/auth_manager.dart';
+
+// import 'package:front_appsnack/screens/admin/admin_home_screen.dart';
+// import 'package:front_appsnack/screens/vendedores/pantalla_seleccion_sector.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+  }
+
+  void _showErrorSnackBar(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.redAccent),
+    );
+  }
+
+  // --- FUNCIÓN DE LOGIN CORREGIDA Y ADAPTADA ---
+  Future<void> signIn() async {
+    // Muestra tu animación de carga personalizada
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(
+        child: RotationTransition(
+          turns: _animationController,
+          child: Image.asset('assets/imagenes/logo.png', width: 100),
+        ),
+      ),
+    );
+
+    try {
+      final username = _usernameController.text.trim();
+      final password = _passwordController.text.trim();
+
+      if (username.isEmpty || password.isEmpty) {
+        if (mounted) Navigator.of(context).pop();
+        _showErrorSnackBar('Por favor, ingresa usuario y PIN.');
+        return;
+      }
+
+      // PASO 1: Buscar el documento del vendedor para obtener su email.
+      // NOTA: Esto requiere que las reglas de Firestore permitan esta lectura.
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('vendedores')
+          .where('username', isEqualTo: username)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        if (mounted) Navigator.of(context).pop();
+        _showErrorSnackBar('Usuario no encontrado.');
+        return;
+      }
+
+      final vendorData = querySnapshot.docs.first.data();
+      final String email = vendorData['email'];
+
+      if (email.isEmpty) {
+        if (mounted) Navigator.of(context).pop();
+        _showErrorSnackBar('El usuario no tiene un email configurado.');
+        return;
+      }
+
+      // PASO 2: Autenticar de forma segura con Firebase Auth usando el email y la contraseña (PIN).
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password:
+            password, // El PIN del usuario debe ser su contraseña en Firebase Auth
+      );
+
+      // Si el login es exitoso, el AuthGate se encargará de la navegación.
+      // Simplemente cerramos el diálogo de carga.
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } on FirebaseAuthException {
+      if (mounted) Navigator.of(context).pop();
+      _showErrorSnackBar('PIN o usuario incorrecto.');
+    } catch (e) {
+      // --- ESTA LÍNEA ES LA MÁS IMPORTANTE DE TODAS ---
+      print("EL ERROR REAL ES: $e");
+      // --------------------------------------------------
+
+      if (mounted) Navigator.of(context).pop();
+      _showErrorSnackBar('Ocurrió un error. Revisa la consola de VS Code.');
+    }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Tu UI se mantiene exactamente igual
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 251, 234, 214),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: SingleChildScrollView(
+            // Añadido para evitar overflow en pantallas pequeñas
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/imagenes/logo.png', width: 150),
+                const SizedBox(height: 10),
+                const Text(
+                  "Bienvenido!",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    height: 3,
+                  ),
+                ),
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nombre de Usuario',
+                    prefixIcon: const Icon(Icons.person),
+                    labelStyle: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(
+                        color: Colors.deepPurpleAccent,
+                        width: 1.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(
+                        color: Colors.deepPurple,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  keyboardType: TextInputType.number,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'PIN (Contraseña)',
+                    prefixIcon: const Icon(Icons.lock),
+                    labelStyle: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(
+                        color: Colors.deepPurple,
+                        width: 1.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(
+                        color: Colors.deepPurple,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 221, 214, 240),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 15,
+                    ),
+                    side: const BorderSide(
+                      color: Colors.deepPurple,
+                      width: 2.0,
+                    ),
+                  ),
+                  onPressed: signIn, // Llama a la nueva función
+                  child: const Text(
+                    'Ingresar',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

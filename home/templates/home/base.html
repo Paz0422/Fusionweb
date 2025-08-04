@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Fusión{% endblock %}</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
 
     <style>
@@ -465,21 +464,18 @@
             <h1>Fusión</h1>
             <h5>Expertos en alimentación deportiva</h5>
         </div>
-        <!-- Menú hamburguesa para móvil -->
         <button class="menu-toggle" aria-label="Abrir menú" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </button>
-        <!-- Menú principal -->
         <nav class="main-nav">
             <a href="{% url 'home' %}">Inicio</a>
             <a href="{% url 'nosotros' %}">Nosotros</a>
-            <a href="{% url 'contacto' %}">Contacto</a>
+            <a href="{% url 'productos' %}">Productos</a> <a href="{% url 'contacto' %}">Contacto</a>
         </nav>
-        <!-- Menú lateral móvil -->
         <div class="mobile-menu" id="mobileMenu">
             <a href="{% url 'home' %}" onclick="closeMenu()">Inicio</a>
             <a href="{% url 'nosotros' %}" onclick="closeMenu()">Nosotros</a>
-            <a href="{% url 'contacto' %}" onclick="closeMenu()">Contacto</a>
+            <a href="{% url 'productos' %}" onclick="closeMenu()">Productos</a> <a href="{% url 'contacto' %}" onclick="closeMenu()">Contacto</a>
         </div>
     </header>
 

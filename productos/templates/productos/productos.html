@@ -1,0 +1,161 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Nuestros Productos - Fusión{% endblock %}
+
+{% block content %}
+<style>
+    .titulo-pagina {
+        font-family: 'Pacifico', cursive;
+        color: #4E342E;
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .titulo-seccion {
+        font-family: 'Open Sans', sans-serif;
+        color: #8D6E63;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-align: left;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #FFC107;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+
+    .product-card {
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    
+    .product-info {
+        padding: 1rem;
+        flex-grow: 1;
+    }
+
+    .product-info h3 {
+        margin: 0 0 0.5rem 0;
+        color: #4E342E;
+        font-size: 1.2rem;
+    }
+    
+    .product-info p {
+        color: #757575;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .product-price {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #4E342E;
+        padding: 0.5rem 1rem 1.5rem 1rem;
+        margin: 0;
+    }
+</style>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 1rem;">
+    <h1 class="titulo-pagina">Nuestros Productos</h1>
+
+    <section>
+        <h2 class="titulo-seccion">Bebestibles 🥤</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/bebida-energetica.jpg' %}" alt="Bebida Grande">
+                <div class="product-info">
+                    <h3>Bebida Grande</h3>
+                    <p>(Coca-Cola)</p>
+                </div>
+                <p class="product-price">$3.000</p>
+            </div>
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/bebida-isotonica.jpg' %}" alt="Bebida Pequeña">
+                <div class="product-info">
+                    <h3>Bebida Pequeña</h3>
+                    <p>(Coca-Cola)</p>
+                </div>
+                <p class="product-price">$2.000</p>
+            </div>
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/agua-mineral.jpg' %}" alt="Agua Mineral">
+                <div class="product-info">
+                    <h3>Agua Mineral</h3>
+                    <p>Con y sin gas.</p>
+                </div>
+                <p class="product-price">$2.000</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="titulo-seccion">Snacks 🍿</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/snacks-varios.jpg' %}" alt="Snacks Variados">
+                <div class="product-info">
+                    <h3>Snacks Variados</h3>
+                    <p>Elige tu favorito: Papas fritas, Cheetos, Doritos, Ramitas y más.</p>
+                </div>
+                <p class="product-price">$3.000</p>
+            </div>
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/mix-frutos-secos.jpg' %}" alt="Maní">
+                <div class="product-info">
+                    <h3>Maní</h3>
+                    <p>Confitado o salado.</p>
+                </div>
+                <p class="product-price">$2.000</p>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <h2 class="titulo-seccion">Productos Frescos 🥪</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/chaparrita.jpg' %}" alt="Chaparritas">
+                <div class="product-info">
+                    <h3>Chaparritas</h3>
+                    <p>Queso caliente y vienesa envueltos en masa.</p>
+                </div>
+                <p class="product-price">$3.000</p>
+            </div>
+            <div class="product-card">
+                <img src="{% static 'home/imagenes/hamburguesa-queso.jpg' %}" alt="Hamburguesa con Queso">
+                <div class="product-info">
+                    <h3>Hamburguesa con Queso</h3>
+                    <p>Carne, queso cheddar y pan brioche.</p>
+                </div>
+                <p class="product-price">$5.000</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
